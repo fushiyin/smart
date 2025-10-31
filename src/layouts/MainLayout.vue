@@ -18,12 +18,7 @@
                 />
                 <v-avatar color="purple" size="32">NH</v-avatar>
             </v-app-bar>
-            <v-navigation-drawer
-                app
-                :width="collapsed ? 64 : 220"
-                class="flex justify-space-between"
-                style="padding: 10px"
-            >
+            <v-navigation-drawer app :width="collapsed ? 64 : 220" style="padding: 10px">
                 <div class="d-flex flex-column h-100">
                     <div class="d-flex flex-column">
                         <div v-for="menu in menus" :key="menu.label">
@@ -54,7 +49,7 @@
                     </div>
                     <div
                         @click="toggleSidebar"
-                        class="w-full items-center text-center py-2 cursor-pointer rounded-lg bg-indigo-lighten-1"
+                        class="w-full items-center text-center py-2 cursor-pointer rounded-lg bg-indigo-lighten-1 mt-auto"
                     >
                         <v-icon>
                             {{ collapsed ? 'mdi-chevron-right' : 'mdi-chevron-left' }}
