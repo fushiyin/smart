@@ -1,36 +1,67 @@
 <template>
     <v-responsive>
         <v-app>
-            <v-app-bar app color="#1976D2" class="fixed">
+            <v-app-bar height="48" app color="indigo-lighten-1" class="fixed pr-5">
                 <v-btn icon @click="toggleSidebar">
                     <v-icon>mdi-menu</v-icon>
                 </v-btn>
                 <v-toolbar-title class="ml-3">Tiền lương</v-toolbar-title>
                 <v-spacer />
                 <v-text-field
+                    class="mr-5"
                     hide-details
-                    dense
-                    solo-inverted
-                    rounded
+                    density="compact"
+                    variant="solo"
                     placeholder="Tìm kiếm"
                     append-inner-icon="mdi-magnify"
                     style="max-width: 320px"
                 />
                 <v-avatar color="purple" size="32">NH</v-avatar>
             </v-app-bar>
-            <v-navigation-drawer v-model="collapsed" app>
-                <v-list>
-                    <v-list-item
-                        v-for="item in menus"
-                        :key="item.path"
-                        :to="item.path"
-                        :active-class="isActive(item) ? 'v-list-item--active' : ''"
+            <v-navigation-drawer
+                app
+                :width="collapsed ? 64 : 220"
+                class="flex justify-space-between"
+                style="padding: 10px"
+            >
+                <div class="d-flex flex-column h-100">
+                    <div class="d-flex flex-column">
+                        <div v-for="menu in menus" :key="menu.label">
+                            <div
+                                @click="$router.push(menu.path)"
+                                :class="{
+                                    'flex gap-2 w-full py-2 cursor-pointer rounded-lg': true,
+                                    'bg-indigo-darken-1 rounded-r-lg': isActive(menu),
+                                    'px-4': !collapsed,
+                                    'text-center': collapsed,
+                                }"
+                            >
+                                <v-icon :color="isActive(menu) ? 'white' : 'grey'">{{
+                                    menu.icon
+                                }}</v-icon>
+                                <span
+                                    v-if="!collapsed"
+                                    :class="{
+                                        'ml-2': true,
+                                        'text-white font-medium': isActive(menu),
+                                        'text-gray-600': !isActive(menu),
+                                    }"
+                                >
+                                    {{ menu.label }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        @click="toggleSidebar"
+                        class="w-full items-center text-center py-2 cursor-pointer rounded-lg bg-indigo-lighten-1"
                     >
-                        <v-list-item-content>
-                            <v-list-item-title>{{ item?.label }}</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list>
+                        <v-icon>
+                            {{ collapsed ? 'mdi-chevron-right' : 'mdi-chevron-left' }}
+                        </v-icon>
+                        <span v-if="!collapsed">Đóng</span>
+                    </div>
+                </div>
             </v-navigation-drawer>
 
             <v-main>
@@ -60,3 +91,13 @@ const isActive = (item) => {
     }
 }
 </script>
+
+<style scoped>
+.v-list-item {
+    padding: 0 !important;
+}
+
+.v-list-item-icon {
+    min-width: 40px;
+}
+</style>
