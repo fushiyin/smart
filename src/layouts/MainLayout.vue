@@ -2,7 +2,7 @@
     <v-responsive>
         <v-app>
             <v-app-bar height="48" app color="indigo-lighten-1" class="fixed pr-5">
-                <v-btn icon @click="toggleSidebar">
+                <v-btn icon @click="toggleMenu">
                     <v-icon>mdi-menu</v-icon>
                 </v-btn>
                 <v-toolbar-title class="ml-3">Tiền lương</v-toolbar-title>
@@ -18,6 +18,9 @@
                 />
                 <v-avatar color="purple" size="32">NH</v-avatar>
             </v-app-bar>
+
+            <AppLauncher v-model="showMenu" />
+
             <v-navigation-drawer app :width="collapsed ? 64 : 220" style="padding: 10px">
                 <div class="d-flex flex-column h-100">
                     <div class="d-flex flex-column">
@@ -72,11 +75,17 @@
 import { ref } from 'vue'
 import { useModuleMenu } from '@/composables/useModuleMenu'
 import { useRoute } from 'vue-router'
+import AppLauncher from '@/components/AppLauncher.vue'
 
 const route = useRoute()
 const { menus } = useModuleMenu()
 const collapsed = ref(false)
+const showMenu = ref(false)
 const toggleSidebar = () => (collapsed.value = !collapsed.value)
+
+const toggleMenu = () => {
+    showMenu.value = !showMenu.value
+}
 
 const isActive = (item) => {
     try {
