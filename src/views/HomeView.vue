@@ -2,7 +2,8 @@
 </script>
 
 <template>
-    <main>
+    <div>
         <div>HOME</div>
-    </main>
+        <router-view />
+    </div>
 </template>

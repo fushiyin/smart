@@ -1,69 +1,62 @@
 <template>
-    <div class="flex min-h-screen bg-gray-50 text-gray-800">
-        <!-- Sidebar -->
-        <aside
-            class="w-64 bg-white shadow-md flex flex-col fixed inset-y-0 left-0 z-20 transition-transform duration-300"
-            :class="{ '-translate-x-full': !sidebarOpen }"
-        >
-            <div class="p-4 font-bold text-lg border-b">HR Portal</div>
-            <nav class="flex-1 overflow-y-auto">
-                <ul>
-                    <li
-                        v-for="item in menu"
+    <v-responsive>
+        <v-app>
+            <v-app-bar app color="#1976D2" class="fixed">
+                <v-btn icon @click="toggleSidebar">
+                    <v-icon>mdi-menu</v-icon>
+                </v-btn>
+                <v-toolbar-title class="ml-3">Tiền lương</v-toolbar-title>
+                <v-spacer />
+                <v-text-field
+                    hide-details
+                    dense
+                    solo-inverted
+                    rounded
+                    placeholder="Tìm kiếm"
+                    append-inner-icon="mdi-magnify"
+                    style="max-width: 320px"
+                />
+                <v-avatar color="purple" size="32">NH</v-avatar>
+            </v-app-bar>
+            <v-navigation-drawer v-model="collapsed" app>
+                <v-list>
+                    <v-list-item
+                        v-for="item in menus"
                         :key="item.path"
-                        class="p-3 hover:bg-green-100 cursor-pointer flex items-center space-x-2"
-                        @click="go(item.path)"
+                        :to="item.path"
+                        :active-class="isActive(item) ? 'v-list-item--active' : ''"
                     >
-                        <span>{{ item.label }}</span>
-                    </li>
-                </ul>
-            </nav>
-            <div class="p-4 border-t text-sm text-gray-500">© 2025 Company</div>
-        </aside>
+                        <v-list-item-content>
+                            <v-list-item-title>{{ item?.label }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list>
+            </v-navigation-drawer>
 
-        <!-- Main Content -->
-        <div class="flex-1 ml-64 flex flex-col">
-            <!-- Header -->
-            <header class="h-14 bg-white border-b flex items-center justify-between px-4">
-                <div class="flex items-center space-x-3">
-                    <button
-                        class="p-2 rounded-md hover:bg-gray-100 md:hidden"
-                        @click="sidebarOpen = !sidebarOpen"
-                    >
-                        ☰
-                    </button>
-                    <h1 class="font-semibold text-lg">{{ title }}</h1>
-                </div>
-
-                <div class="flex items-center space-x-3">
-                    <button class="p-2 hover:bg-gray-100 rounded-full">🔔</button>
-                </div>
-            </header>
-
-            <!-- Content -->
-            <main class="flex-1 overflow-y-auto p-4">
-                <slot></slot>
-            </main>
-        </div>
-    </div>
+            <v-main>
+                <v-container>
+                    <router-view />
+                </v-container>
+            </v-main>
+        </v-app>
+    </v-responsive>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useModuleMenu } from '@/composables/useModuleMenu'
+import { useRoute } from 'vue-router'
 
-const router = useRouter()
-const sidebarOpen = ref(true)
+const route = useRoute()
+const { menus } = useModuleMenu()
+const collapsed = ref(false)
+const toggleSidebar = () => (collapsed.value = !collapsed.value)
 
-const menu = [
-    { label: 'Tổng quan', path: '/dashboard' },
-    { label: 'Tiền lương', path: '/payroll' },
-    { label: 'Chấm công', path: '/attendance' },
-    { label: 'Tuyển dụng', path: '/recruitment' },
-    { label: 'Bảo hiểm', path: '/insurance' },
-    { label: 'Hệ thống', path: '/system' },
-]
-
-const title = 'Tổng quan'
-const go = (path) => router.push(path)
+const isActive = (item) => {
+    try {
+        return route.path.startsWith(item.path)
+    } catch {
+        return false
+    }
+}
 </script>
