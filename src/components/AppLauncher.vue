@@ -1,55 +1,57 @@
 <template>
-    <v-dialog v-model="model" fullscreen hide-overlay transition="dialog-bottom-transition">
-        <v-card class="pa-4" style="border-radius: 12px; max-width: 1100px; margin: auto">
-            <div class="d-flex align-center justify-space-between">
-                <div class="d-flex align-center">
-                    <v-text-field
-                        v-model="query"
-                        placeholder="Tìm kiếm"
-                        hide-details
-                        rounded
-                        append-inner-icon="mdi-magnify"
-                        style="width: 520px"
-                        dense
-                    />
-                    <div class="ml-4 text-subtitle-2 text--secondary">
-                        {{ filteredApps.length }} kết quả cho '{{ query || '' }}'
-                    </div>
-                </div>
-
-                <div>
-                    <v-btn icon @click="close">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </div>
+    <v-navigation-drawer
+        v-model="model"
+        temporary
+        width="500"
+        z-index="1000"
+        class="app-launcher-drawer"
+    >
+        <v-sheet class="pa-4 fill-height d-flex flex-column">
+            <div class="d-flex ga-4 align-center justify-space-between mb-3">
+                <v-text-field
+                    v-model="query"
+                    placeholder="Tìm kiếm"
+                    hide-details
+                    variant="solo"
+                    rounded
+                    append-inner-icon="mdi-magnify"
+                    style="flex: 1"
+                />
+                <v-btn icon @click="close">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
             </div>
 
-            <v-divider class="my-3" />
+            <div class="text-subtitle-2 text--secondary mb-3">
+                {{ filteredApps.length }} kết quả cho '{{ query || '' }}'
+            </div>
 
-            <v-row dense>
-                <v-col cols="6" sm="4" md="3" v-for="app in filteredApps" :key="app.key">
+            <v-divider class="mb-3" />
+
+            <v-row dense class="overflow-auto" style="flex: 1">
+                <v-col cols="6" sm="4" v-for="app in filteredApps" :key="app.key">
                     <v-card
                         class="pa-4 d-flex flex-column align-center justify-center app-tile"
                         elevation="1"
                         @click="openApp(app)"
                     >
-                        <v-avatar size="56" :style="{ background: app.bg, color: '#fff' }">{{
+                        <v-avatar size="48" :style="{ background: app.bg, color: '#fff' }">{{
                             app.icon
                         }}</v-avatar>
-                        <div class="mt-3 text-center text-body-2">{{ app.label }}</div>
+                        <div class="mt-2 text-center text-body-2">{{ app.label }}</div>
                     </v-card>
                 </v-col>
             </v-row>
 
-            <div class="d-flex align-center justify-space-between mt-6">
+            <div class="d-flex align-center justify-space-between mt-3">
                 <div class="d-flex gap-2">
                     <v-btn icon><v-icon>mdi-home</v-icon></v-btn>
                     <v-btn icon><v-icon>mdi-cog</v-icon></v-btn>
                 </div>
                 <div class="text-caption text--secondary">Nhấn Esc để đóng</div>
             </div>
-        </v-card>
-    </v-dialog>
+        </v-sheet>
+    </v-navigation-drawer>
 </template>
 
 <script setup>
@@ -104,5 +106,8 @@ const openApp = (app) => {
 .app-tile:hover {
     transform: translateY(-6px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.app-launcher-drawer .v-navigation-drawer__content {
+    padding: 0;
 }
 </style>
