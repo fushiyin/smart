@@ -2,7 +2,7 @@
     <v-navigation-drawer
         v-model="model"
         temporary
-        width="500"
+        width="400"
         z-index="1000"
         class="app-launcher-drawer"
     >
@@ -16,38 +16,36 @@
                     rounded
                     append-inner-icon="mdi-magnify"
                     style="flex: 1"
+                    allowClear
                 />
                 <v-btn icon @click="close">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </div>
 
-            <div class="text-subtitle-2 text--secondary mb-3">
+            <div v-if="query" class="text-subtitle-2 text--secondary mb-3">
                 {{ filteredApps.length }} kết quả cho '{{ query || '' }}'
             </div>
 
             <v-divider class="mb-3" />
 
-            <v-row dense class="overflow-auto" style="flex: 1">
-                <v-col cols="6" sm="4" v-for="app in filteredApps" :key="app.key">
+            <div class="overflow-auto d-flex flex-column ga-2">
+                <div v-for="app in filteredApps" :key="app.key" class="flex-1">
                     <v-card
                         class="pa-4 d-flex flex-column align-center justify-center app-tile"
                         elevation="1"
                         @click="openApp(app)"
+                        color="green-darken-3"
                     >
-                        <v-avatar size="48" :style="{ background: app.bg, color: '#fff' }">{{
-                            app.icon
-                        }}</v-avatar>
-                        <div class="mt-2 text-center text-body-2">{{ app.label }}</div>
+                        <v-icon key="app.icon" size="48" color="white">
+                            {{ app.icon }}
+                        </v-icon>
+                        <div class="mt-2 text-center text-body-2 text-white">{{ app.name }}</div>
                     </v-card>
-                </v-col>
-            </v-row>
-
-            <div class="d-flex align-center justify-space-between mt-3">
-                <div class="d-flex gap-2">
-                    <v-btn icon><v-icon>mdi-home</v-icon></v-btn>
-                    <v-btn icon><v-icon>mdi-cog</v-icon></v-btn>
                 </div>
+            </div>
+
+            <div class="d-flex align-center justify-space-between mt-auto">
                 <div class="text-caption text--secondary">Nhấn Esc để đóng</div>
             </div>
         </v-sheet>
@@ -55,12 +53,15 @@
 </template>
 
 <script setup>
+import { MODULES_LIST } from '@/utils/constant'
 import { ref, computed } from 'vue'
+import { useRouter } from 'vuetify/lib/composables/router'
 
 const props = defineProps({
     modelValue: { type: Boolean, default: false },
 })
 const emit = defineEmits(['update:modelValue'])
+const router = useRouter()
 
 const model = computed({
     get: () => props.modelValue,
@@ -69,30 +70,17 @@ const model = computed({
 
 const query = ref('')
 
-const apps = [
-    { key: 1, label: 'Chấm công', icon: '🧬', bg: '#fb923c' },
-    { key: 2, label: 'Thông tin nhân sự', icon: '👥', bg: '#60a5fa' },
-    { key: 3, label: 'Đánh giá', icon: '⭐', bg: '#34d399' },
-    { key: 4, label: 'Hệ thống', icon: '⚙️', bg: '#94a3b8' },
-    { key: 5, label: 'Nhân viên', icon: '🧑‍💼', bg: '#a78bfa' },
-    { key: 6, label: 'Bảo hiểm xã hội', icon: '🌱', bg: '#22c55e' },
-    { key: 7, label: 'Danh bạ', icon: '📞', bg: '#7c3aed' },
-    { key: 8, label: 'Thuế TNCN', icon: '🏛️', bg: '#3b82f6' },
-    { key: 9, label: 'Mục tiêu', icon: '🎯', bg: '#06b6d4' },
-    { key: 10, label: 'Khuyến mại', icon: '％', bg: '#c084fc' },
-    { key: 11, label: 'aiMarketing', icon: '🔊', bg: '#fb7185' },
-    { key: 12, label: 'CRM', icon: '👥', bg: '#3b82f6' },
-]
+const apps = MODULES_LIST
 
 const filteredApps = computed(() => {
     const q = query.value.trim().toLowerCase()
     if (!q) return apps
-    return apps.filter((a) => a.label.toLowerCase().includes(q))
+    return apps.filter((a) => a.name.toLowerCase().includes(q))
 })
 
 const close = () => (model.value = false)
 const openApp = (app) => {
-    console.log('open app', app)
+    router.push(app.route)
     model.value = false
 }
 </script>

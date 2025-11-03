@@ -4,8 +4,15 @@ const About = () => import('@/views/AboutView.vue')
 const Login = () => import('@/views/Login.vue')
 const NotFound = () => import('@/views/NotFound.vue')
 const MainLayout = () => import('@/layouts/MainLayout.vue')
+const AdminIndex = () => import('@/views/admin/Index.vue')
+const UserIndexView = () => import('@/views/users/Index.vue')
 
 export const moduleRoutes = [
+  {
+    path: '/user',
+    component: UserIndexView,
+    name: 'UserManagement',
+  },
   {
     path: '/',
     name: 'Index',
@@ -15,7 +22,7 @@ export const moduleRoutes = [
 
   {
     path: '/attendance',
-    component: MainLayout,
+    component: AdminIndex,
     name: 'Attendance',
     meta: { title: 'Attendance Module', authRequired: false },
     children: [

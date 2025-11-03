@@ -7,7 +7,7 @@
                 The page you are looking for might have been removed, had its name changed, or is
                 temporarily unavailable.
             </p>
-            <router-link to="/home/index" class="home-btn">Go to homepage</router-link>
+            <router-link to="/hrm" class="home-btn">Go to homepage</router-link>
             <div class="small-note">If you think this is an error, contact support.</div>
         </div>
     </div>
