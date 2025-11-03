@@ -98,6 +98,7 @@ import { ref } from 'vue'
 import bg from '@/assets/images/imagepng.png'
 import image from '@/assets/images/image.png'
 import { useRouter } from 'vuetify/lib/composables/router'
+
 const email = ref('')
 const password = ref('')
 const show = ref(false)
@@ -105,7 +106,7 @@ const router = useRouter()
 
 const onSubmit = () => {
     console.log('login', { email: email.value, password: password.value })
-    router.push('/home/index')
+    router.push(`/attendance`)
 }
 </script>
 
@@ -157,7 +158,7 @@ const onSubmit = () => {
     font-weight: 700;
     color: #0b5568;
     margin-bottom: 6px;
-    background: linear-gradient(180deg, #3b82f6, #2563eb);
+    background: linear-gradient(180deg, #0b0d0f, #000000);
 }
 .title {
     font-size: 28px;
@@ -228,7 +229,7 @@ const onSubmit = () => {
 }
 
 .btn {
-    background: linear-gradient(180deg, #3980f1, #6193fd);
+    background: linear-gradient(180deg, #0b0d0f, #000000);
     color: #fff;
     padding: 10px 18px;
     border-radius: 8px;

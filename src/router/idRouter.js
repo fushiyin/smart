@@ -16,6 +16,7 @@ export const moduleRoutes = [
   {
     path: '/attendance',
     component: MainLayout,
+    name: 'Attendance',
     meta: { title: 'Attendance Module', authRequired: false },
     children: [
       {
