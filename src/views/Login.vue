@@ -9,28 +9,20 @@
     >
         <div class="auth-card">
             <div class="row">
-                <div v-if="$vuetify.display.mdAndUp" class="col image-col">
-                    <div class="image-fill"></div>
+                <div class="col image-col pa-8">
+                    <div
+                        class="image-fill"
+                        :style="{
+                            backgroundImage: 'url(' + image + ')',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            width: '100%',
+                            height: '100%',
+                        }"
+                    ></div>
                 </div>
-                <div
-                    v-else
-                    class="col"
-                    :style="{
-                        backgroundImage: 'url(' + mobile + ')',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }"
-                >
-                    <div class="mobile-graphic d-flex h-100 justify-center align-center">
-                        <div class="mobile-header text-center">
-                            <h2 class="text-h5 font-weight-medium mb-2 text-white">ATENSYSTEM</h2>
-                            <div class="text-body-2 text--secondary text-white">
-                                Your gateway to efficient management
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col left bg-blur position-relative">
+
+                <div class="col left pa-8 bg-blur position-relative">
                     <div
                         class="brand position-absolute py-2 px-6 text-center text-white"
                         style="
@@ -48,12 +40,7 @@
                     <h2 class="title">Welcome back</h2>
                     <div class="lead">Sign in to continue to your dashboard</div>
 
-                    <form
-                        @submit.prevent="onSubmit"
-                        :class="{
-                            'mt-6': !vuetify.display.mdAndUp,
-                        }"
-                    >
+                    <form @submit.prevent="onSubmit" class="mt-6">
                         <div class="field">
                             <label class="label">Email address</label>
                             <input
@@ -96,7 +83,7 @@
 
                     <v-divider thickness="2" class="my-4"> </v-divider>
 
-                    <div class="d-flex flex-column justify-center align-center footer-note">
+                    <div class="d-flex flex-column justify-center align-center">
                         <div class="text">or</div>
                         <div class="footnote">Register for trial? <a href="#"> Register </a></div>
                     </div>
@@ -109,26 +96,29 @@
 <script setup>
 import { ref } from 'vue'
 import bg from '@/assets/images/imagepng.png'
-import mobile from '@/assets/images/mobile.webp'
-import vuetify from '@/plugins/vuetify'
+import image from '@/assets/images/image.png'
+import { useRouter } from 'vuetify/lib/composables/router'
 const email = ref('')
 const password = ref('')
 const show = ref(false)
+const router = useRouter()
 
 const onSubmit = () => {
     console.log('login', { email: email.value, password: password.value })
+    router.push('/home/index')
 }
 </script>
 
 <style scoped>
 .auth-shell {
-    min-height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
     background: linear-gradient(180deg, #f3f7fb 0%, #ffffff 100%);
     position: relative;
+    overflow: hidden;
 }
 .auth-card {
     position: relative;
@@ -153,14 +143,13 @@ const onSubmit = () => {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 32px;
 }
 .pa-8 {
     padding: 32px;
 }
 
 .bg-blur {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -239,7 +228,7 @@ const onSubmit = () => {
 }
 
 .btn {
-    background: linear-gradient(180deg, #6fa6ff, #6193fd);
+    background: linear-gradient(180deg, #3980f1, #6193fd);
     color: #fff;
     padding: 10px 18px;
     border-radius: 8px;
@@ -262,16 +251,16 @@ const onSubmit = () => {
     border-radius: 12px;
     width: 100%;
     height: 100%;
-    background-image: url('@/assets/images/image.png');
-    background-size: cover;
-    background-position: center;
 }
 
-/* responsive */
 @media (max-width: 992px) {
+    .auth-shell {
+        background-image: url('@/assets/images/login_background.jpg') !important;
+    }
     .auth-card {
         flex-direction: column;
         height: auto;
+        max-width: 92vw;
     }
     .row {
         flex-direction: column;
@@ -287,138 +276,28 @@ const onSubmit = () => {
         padding: 20px;
     }
 }
-
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     .auth-shell {
-        padding: 0;
-        background-size: cover !important;
-        background-position: bottom center !important;
-        background-image: none !important;
-        background-color: ;
+        background-image: url('@/assets/images/login_background.jpg') !important;
+    }
+    .auth-card {
+        border-radius: 0;
+    }
+    .left {
+        padding: 18px;
     }
     .title,
     .lead {
         display: none;
     }
 
-    .auth-card {
-        max-width: 100%;
-        height: 100vh;
-        max-height: 100vh;
-        box-shadow: none;
-        background: red;
-    }
-
     .image-col {
         display: none;
     }
-
-    .left {
-        backdrop-filter: none !important;
-        box-shadow: none !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 0;
-        border-radius: 80px 0 0 0 !important;
-        background: #ffffff !important;
-    }
-
-    .brand {
-        display: none;
-    }
-
-    .mobile-header {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 48px;
-    }
-
-    .mobile-graphic {
-        width: 100%;
-        flex: 1;
-        border-radius: 0 0 24px 24px;
-        position: relative;
-        overflow: hidden;
-        margin-bottom: 32px;
-    }
-
-    .left form {
-        width: 100%;
-        max-width: 400px;
-        background: transparent;
-        padding: 32px 20px;
-    }
-
-    .field {
-        margin-bottom: 16px;
-    }
-
-    .label {
-        font-size: 13px;
-        font-weight: 500;
-        color: #64748b;
-        margin-bottom: 8px;
-        text-transform: none;
-        letter-spacing: 0;
-    }
-
-    .field input {
-        border: none;
-        border-bottom: none;
-        background: #ffffff;
-        padding: 14px 20px;
-        border-radius: 12px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        width: 100%;
-        font-size: 15px;
-    }
-
-    .field input:focus {
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        border-bottom: none;
-    }
-
-    .pw-row button {
-        right: 20px !important;
-    }
-
-    .actions {
-        justify-content: center;
-        margin-top: 12px;
-        margin-bottom: 20px;
-    }
-
-    .forgot {
-        font-size: 14px;
-        color: #64748b;
-    }
-
-    .v-divider {
-        display: none;
-    }
-
-    .social-login {
-        width: 100%;
-        max-width: 400px;
-        display: flex;
-        gap: 12px;
-        margin-bottom: 24px;
-    }
-    .text {
-        display: none;
-    }
-    .footnote {
-        font-size: 14px;
-        color: #64748b;
-        text-align: center;
-        display: none;
-    }
-    .footnote a {
-        color: #3b82f6;
-        text-decoration: none;
-        font-weight: 600;
+    .bg-blur {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        border: 1px solid rgba(200, 200, 200, 0.3);
     }
 }
 </style>
