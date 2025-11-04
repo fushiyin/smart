@@ -6,12 +6,34 @@ const NotFound = () => import('@/views/NotFound.vue')
 const AdminIndex = () => import('@/views/admin/Index.vue')
 const UserIndexView = () => import('@/views/users/Index.vue')
 const GeneralDashboard = () => import('@/views/GeneralDashboard.vue')
+const UserHome = () => import('@/views/users/home/HomeView.vue')
 
 export const moduleRoutes = [
   {
-    path: '/user',
+    path: '/home',
     component: UserIndexView,
     name: 'UserManagement',
+    meta: { title: 'User Management', authRequired: false },
+    children: [
+      {
+        path: '',
+        name: 'UserManagementOverview',
+        component: UserHome,
+        meta: { title: 'User Management Overview', authRequired: false },
+      },
+      {
+        path: 'reports',
+        name: 'UserManagementReports',
+        component: About,
+        meta: { title: 'User Management Reports', authRequired: false },
+      },
+      {
+        path: ':id',
+        name: 'UserManagementDetail',
+        component: About,
+        meta: { title: 'User Management Detail', hidden: true, authRequired: false },
+      },
+    ],
   },
   {
     path: '/dashboard',
