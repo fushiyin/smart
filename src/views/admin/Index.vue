@@ -1,11 +1,13 @@
 <template>
     <v-responsive>
         <v-app>
-            <v-app-bar height="48" app color="indigo-lighten-1" class="fixed pr-5">
+            <v-app-bar height="48" app :color="menus.themeColor + '-darken-4'" class="fixed pr-5">
                 <v-btn icon @click="toggleMenu">
                     <v-icon>mdi-menu</v-icon>
                 </v-btn>
-                <v-toolbar-title class="ml-3">Tiền lương</v-toolbar-title>
+                <v-toolbar-title class="ml-3">
+                    {{ menus.label }}
+                </v-toolbar-title>
                 <v-spacer />
                 <v-text-field
                     class="mr-5"
@@ -24,12 +26,13 @@
             <v-navigation-drawer app :width="collapsed ? 64 : 220" style="padding: 10px">
                 <div class="d-flex flex-column h-100">
                     <div class="d-flex flex-column">
-                        <div v-for="menu in menus" :key="menu.label">
+                        <div v-for="menu in menus.menus" :key="menu.label">
                             <div
                                 @click="$router.push(menu.path)"
                                 :class="{
                                     'flex gap-2 w-full py-2 cursor-pointer rounded-lg': true,
-                                    'bg-indigo-darken-1 rounded-r-lg': isActive(menu),
+                                    ['bg-' + menus.themeColor + '-darken-3']: isActive(menu),
+                                    'rounded-r-lg': isActive(menu),
                                     'px-4': !collapsed,
                                     'text-center': collapsed,
                                 }"
@@ -52,7 +55,8 @@
                     </div>
                     <div
                         @click="toggleSidebar"
-                        class="w-full items-center text-center py-2 cursor-pointer rounded-lg bg-indigo-lighten-1 mt-auto"
+                        class="w-full items-center text-center py-2 cursor-pointer rounded-lg mt-auto"
+                        :class="'bg-' + menus.themeColor + '-lighten-1'"
                     >
                         <v-icon>
                             {{ collapsed ? 'mdi-chevron-right' : 'mdi-chevron-left' }}
@@ -64,7 +68,9 @@
 
             <v-main>
                 <v-container>
-                    <router-view />
+                    <ErrorBoundary>
+                        <router-view />
+                    </ErrorBoundary>
                 </v-container>
             </v-main>
         </v-app>
@@ -76,6 +82,9 @@ import { ref } from 'vue'
 import { useModuleMenu } from '@/composables/useModuleMenu'
 import { useRoute } from 'vue-router'
 import AppLauncher from '@/components/AppLauncher.vue'
+import ErrorBoundary from '@/components/ErrorBoundary.vue'
+
+defineOptions({ name: 'AdminIndex' })
 
 const route = useRoute()
 const { menus } = useModuleMenu()

@@ -3,9 +3,21 @@ const Home = () => import('@/views/HomeView.vue')
 const About = () => import('@/views/AboutView.vue')
 const Login = () => import('@/views/Login.vue')
 const NotFound = () => import('@/views/NotFound.vue')
-const MainLayout = () => import('@/layouts/MainLayout.vue')
+const AdminIndex = () => import('@/views/admin/Index.vue')
+const UserIndexView = () => import('@/views/users/Index.vue')
+const GeneralDashboard = () => import('@/views/GeneralDashboard.vue')
 
 export const moduleRoutes = [
+  {
+    path: '/user',
+    component: UserIndexView,
+    name: 'UserManagement',
+  },
+  {
+    path: '/dashboard',
+    component: GeneralDashboard,
+    name: 'Dashboard',
+  },
   {
     path: '/',
     name: 'Index',
@@ -15,7 +27,8 @@ export const moduleRoutes = [
 
   {
     path: '/attendance',
-    component: MainLayout,
+    component: AdminIndex,
+    name: 'Attendance',
     meta: { title: 'Attendance Module', authRequired: false },
     children: [
       {
@@ -45,7 +58,7 @@ export const moduleRoutes = [
 
   {
     path: '/hrm',
-    component: MainLayout,
+    component: AdminIndex,
     meta: { title: 'HRM Module', authRequired: false },
     children: [
       {
