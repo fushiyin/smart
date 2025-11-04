@@ -25,3 +25,24 @@ export const MODULES_LIST = [
     icon: 'mdi-cog',
   },
 ]
+
+export const fakeUsers = [
+  {
+    email: 'alice@example.com',
+    name: 'Alice Nguyen',
+    role: 'Admin',
+    avatar: 'https://i.pravatar.cc/150?img=1',
+  },
+  {
+    email: 'binh@example.com',
+    name: 'Binh Tran',
+    role: 'User',
+    avatar: 'https://i.pravatar.cc/150?img=2',
+  },
+  {
+    email: 'chi@example.com',
+    name: 'Chi Le',
+    role: 'Manager',
+    avatar: 'https://i.pravatar.cc/150?img=3',
+  },
+]

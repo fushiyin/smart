@@ -12,12 +12,12 @@ export const useAuthStore = defineStore('auth', {
     userEmail: (state) => (state.user ? state.user.email : ''),
   },
   actions: {
-    async login(email, password) {
+    async login(user) {
       this.loading = true
       this.error = null
       try {
         await new Promise((r) => setTimeout(r, 600))
-        this.user = { email }
+        this.user = user
         this.isAuthenticated = true
       } catch (err) {
         this.error = err.message || 'Login failed'

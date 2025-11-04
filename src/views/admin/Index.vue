@@ -68,7 +68,9 @@
 
             <v-main>
                 <v-container>
-                    <router-view />
+                    <ErrorBoundary>
+                        <router-view />
+                    </ErrorBoundary>
                 </v-container>
             </v-main>
         </v-app>
@@ -80,6 +82,9 @@ import { ref } from 'vue'
 import { useModuleMenu } from '@/composables/useModuleMenu'
 import { useRoute } from 'vue-router'
 import AppLauncher from '@/components/AppLauncher.vue'
+import ErrorBoundary from '@/components/ErrorBoundary.vue'
+
+defineOptions({ name: 'AdminIndex' })
 
 const route = useRoute()
 const { menus } = useModuleMenu()

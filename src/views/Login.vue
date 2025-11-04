@@ -66,7 +66,7 @@
                                     @click="show = !show"
                                     class="position-absolute right-0 top-1/2 -translate-y-1/2 mr-10"
                                 >
-                                    <v-icon>{{ show ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
+                                    {{ show ? 'Hide' : 'Show' }}
                                 </button>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                         </div>
                     </form>
 
-                    <v-divider thickness="2" class="my-4"> </v-divider>
+                    <hr class="my-4 divider" />
 
                     <div class="d-flex flex-column justify-center align-center">
                         <div class="text">or</div>
@@ -95,18 +95,33 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { fakeUsers } from '@/utils/constant'
 import bg from '@/assets/images/imagepng.png'
 import image from '@/assets/images/image.png'
-import { useRouter } from 'vuetify/lib/composables/router'
 
+defineOptions({
+    name: 'LoginView',
+})
+const router = useRouter()
+const auth = useAuthStore()
 const email = ref('')
 const password = ref('')
 const show = ref(false)
-const router = useRouter()
 
-const onSubmit = () => {
-    console.log('login', { email: email.value, password: password.value })
-    router.push(`/attendance`)
+const onSubmit = async () => {
+    const user = fakeUsers.find((u) => u?.email.toLowerCase() === email.value.trim().toLowerCase())
+    if (!user) {
+        alert('User not found')
+        return
+    }
+    try {
+        await auth.login(user)
+        router.push('/')
+    } catch {
+        alert('Login failed')
+    }
 }
 </script>
 
@@ -194,6 +209,7 @@ const onSubmit = () => {
     background: transparent;
     outline: none;
     font-size: 15px;
+    background: #ffffff;
 }
 .field input::placeholder {
     color: #9aa6b0;
@@ -252,6 +268,12 @@ const onSubmit = () => {
     border-radius: 12px;
     width: 100%;
     height: 100%;
+}
+.divider {
+    border: none;
+    height: 2px;
+    background: rgba(15, 23, 42, 0.04);
+    margin: 18px 0;
 }
 
 @media (max-width: 992px) {
