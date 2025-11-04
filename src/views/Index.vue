@@ -7,7 +7,6 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const user = useAuthStore().user
-console.log(user)
 
 onMounted(() => {
     if (!user) {
@@ -15,7 +14,7 @@ onMounted(() => {
     }
 
     if (user.role === 'User') {
-        return router.push('/user')
+        return router.push('/home')
     } else return router.push('/dashboard')
 })
 </script>

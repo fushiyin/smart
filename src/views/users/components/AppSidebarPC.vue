@@ -1,14 +1,19 @@
 <template>
-    <aside class="sidebar-root">
+    <aside class="sidebar-root bg-blue-darken-3">
         <nav class="sidebar-menu">
             <button
                 v-for="(item, i) in menu"
                 :key="item.label"
-                :class="['menu-item py-2 px-3', { active: active === i }]"
+                :class="[
+                    'menu-item py-2 px-3 d-flex align-center ga-2',
+                    { 'active bg-white font-weight-black text-grey-darken-4': active === i },
+                ]"
                 @click="active = i"
             >
                 <span class="icon">
-                    <v-icon size="24" color="white">{{ item.icon }}</v-icon>
+                    <v-icon size="24" :color="active === i ? 'grey-darken-4' : 'white'">{{
+                        item.icon
+                    }}</v-icon>
                 </span>
                 <span class="label">{{ item.label }}</span>
             </button>
@@ -23,12 +28,13 @@
 import { ref } from 'vue'
 
 const menu = [
-    { label: 'Tổng quan', icon: 'mdi-file' },
-    { label: 'Hồ sơ', icon: 'mdi-account' },
-    { label: 'Chấm công', icon: 'mdi-timer' },
-    { label: 'Đơn từ', icon: 'mdi-file-document-outline' },
-    { label: 'Tiền lương', icon: 'mdi-currency-usd' },
-    { label: 'Phúc lợi', icon: 'mdi-hand-heart' },
+    { label: 'Overview', icon: 'mdi-file' },
+    { label: 'Profile', icon: 'mdi-account' },
+    { label: 'Check-in', icon: 'mdi-timer' },
+    { label: 'Form Request', icon: 'mdi-file-document-outline' },
+    { label: 'Payroll Records', icon: 'mdi-currency-usd' },
+    { label: 'Benefits', icon: 'mdi-hand-heart' },
+    { label: 'Shared Knowledge', icon: 'mdi-book-open-page-variant' },
 ]
 const active = ref(0)
 </script>
@@ -36,7 +42,6 @@ const active = ref(0)
 <style scoped>
 .sidebar-root {
     width: 220px;
-    background: linear-gradient(180deg, #2d2e4a 0%, #3b2670 100%);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -52,22 +57,13 @@ const active = ref(0)
 }
 .menu-item {
     width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border: none;
-    background: none;
-    color: #e5e7eb;
     font-size: 15px;
     cursor: pointer;
     border-radius: 8px;
     margin-bottom: 2px;
     transition: background 0.2s, color 0.2s;
-}
-.menu-item.active {
-    background: linear-gradient(90deg, #7c3aed, #6366f1);
-    color: #fff;
-    font-weight: 700;
+    font-weight: 900;
+    margin-bottom: 2px;
 }
 .icon {
     width: 22px;

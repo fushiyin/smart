@@ -1,8 +1,6 @@
 <template>
     <div class="layout-root">
-        <header class="layout-header">
-            <slot name="header"></slot>
-        </header>
+        <slot name="header"></slot>
         <div class="layout-body">
             <aside class="layout-sidebar">
                 <slot name="sidebar"></slot>
@@ -23,16 +21,6 @@
     display: flex;
     flex-direction: column;
     background: #f8fafc;
-}
-.layout-header {
-    background: #fff;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    padding: 0 32px;
-    font-size: 1.25rem;
-    font-weight: 700;
-    z-index: 10;
 }
 .layout-body {
     flex: 1;

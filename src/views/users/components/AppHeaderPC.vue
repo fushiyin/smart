@@ -1,7 +1,7 @@
 <template>
-    <header class="header-root">
+    <header class="header-root bg-grey-darken-4 px-5">
         <div class="header-left">
-            <span class="app-title">ATENSYSTEM</span>
+            <span class="app-title font-weight-bold">ATENSYSTEM</span>
         </div>
         <div class="header-right">
             <button class="icon-btn">
@@ -31,9 +31,7 @@ defineProps({
 <style scoped>
 .header-root {
     width: 100%;
-    height: 48px;
-    background: #fff;
-    border-bottom: 1px solid #e5e7eb;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -59,8 +57,6 @@ defineProps({
 }
 .app-title {
     font-size: 1.2rem;
-    font-weight: 700;
-    color: #222;
 }
 .header-right {
     display: flex;
