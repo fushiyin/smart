@@ -1,56 +1,32 @@
 <template>
-    <div class="layout-root">
-        <slot name="header"></slot>
-        <div class="layout-body">
-            <aside class="layout-sidebar">
+    <v-app>
+        <v-app-bar app flat color="white" height="53">
+            <slot name="header"></slot>
+        </v-app-bar>
+        <v-row no-gutters class="layout-body">
+            <v-navigation-drawer app width="220" color="grey-lighten-5" flat>
                 <slot name="sidebar"></slot>
-            </aside>
-            <main class="layout-main">
+            </v-navigation-drawer>
+            <v-main class="layout-main">
                 <slot></slot>
-            </main>
-        </div>
-    </div>
+            </v-main>
+        </v-row>
+    </v-app>
 </template>
 
 <script setup>
 </script>
 
 <style scoped>
-.layout-root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: #f8fafc;
-}
 .layout-body {
-    flex: 1;
-    display: flex;
     min-height: 0;
-}
-.layout-sidebar {
-    width: 220px;
-    background: linear-gradient(180deg, #f3f7fb 0%, #e0e7ff 100%);
-    border-right: 1px solid #e5e7eb;
-    padding: 0;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
 }
 .layout-main {
-    flex: 1;
     padding: 12px 24px;
     min-width: 0;
     background: #f8fafc;
 }
 @media (max-width: 900px) {
-    .layout-header {
-        padding: 0 12px;
-        height: 48px;
-        font-size: 1rem;
-    }
-    .layout-sidebar {
-        width: 64px;
-    }
     .layout-main {
         padding: 12px 4px;
     }
