@@ -125,7 +125,8 @@ const apps = ref([
         icon: 'mdi-account',
         color: 'linear-gradient(135deg,#91f2b6,#68d8ff)',
         tags: ['HR'],
-        path: '/user',
+
+        path: '/home',
     },
     {
         id: 9,

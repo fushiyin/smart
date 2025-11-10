@@ -1,7 +1,6 @@
 <template>
     <div class="mobile-layout-root">
         <header class="mobile-header">
-            <!-- <img src="/logo.png" alt="Logo" class="logo" /> -->
             <div class="font-weight-bold">ATENSYSTEM</div>
             <div class="header-actions">
                 <button class="icon-btn">
@@ -18,7 +17,7 @@
         <main class="mobile-main">
             <slot></slot>
         </main>
-        <nav class="mobile-bottom-nav">
+        <nav class="mobile-bottom-nav" :class="{ 'nav-hidden': hideNav }">
             <button class="nav-btn" :class="{ active: active === 0 }" @click="active = 0">
                 <v-icon size="24">mdi-home-outline</v-icon>
                 <span class="nav-label">Home</span>
@@ -44,8 +43,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 const active = ref(0)
+const hideNav = ref(false)
+let lastScrollY = window.scrollY
+
+function handleScroll() {
+    const currentScrollY = window.scrollY
+    if (currentScrollY <= 0) {
+        hideNav.value = true
+    } else if (currentScrollY > lastScrollY) {
+        hideNav.value = false
+    }
+    lastScrollY = currentScrollY
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style scoped>
@@ -61,14 +80,12 @@ const active = ref(0)
     align-items: center;
     justify-content: space-between;
     padding: 0 18px;
-    /* position: fixed; */
     left: 0;
     right: 0;
     top: 0;
     z-index: 100;
     background-image: url('@/assets/images/login_background.jpg');
 }
-
 .header-actions {
     display: flex;
     gap: 12px;
@@ -87,7 +104,6 @@ const active = ref(0)
 }
 .mobile-main {
     flex: 1;
-    /* margin-top: 56px; */
     margin-bottom: 64px;
     padding: 12px 18px;
 }
@@ -103,6 +119,10 @@ const active = ref(0)
     right: 0;
     bottom: 0;
     z-index: 100;
+    transition: transform 0.3s;
+}
+.mobile-bottom-nav.nav-hidden {
+    transform: translateY(100%);
 }
 .nav-btn {
     flex: 1;
