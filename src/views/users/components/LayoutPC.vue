@@ -4,7 +4,7 @@
             <slot name="header"></slot>
         </v-app-bar>
         <v-row no-gutters class="layout-body">
-            <v-navigation-drawer app width="220" color="grey-lighten-5" flat>
+            <v-navigation-drawer app width="auto" color="grey-lighten-5" flat>
                 <slot name="sidebar"></slot>
             </v-navigation-drawer>
             <v-main class="layout-main">

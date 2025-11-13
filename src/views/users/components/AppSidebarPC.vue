@@ -1,59 +1,96 @@
 <template>
-    <aside class="sidebar-root bg-blue-darken-3">
-        <nav class="sidebar-menu">
-            <button
-                v-for="(item, i) in menu"
-                :key="item.label"
-                :class="[
-                    'menu-item py-2 px-3 d-flex align-center ga-2',
-                    { 'active bg-white font-weight-black text-grey-darken-4': active === i },
-                ]"
-                @click="active = i"
-            >
-                <span class="icon">
-                    <v-icon size="24" :color="active === i ? 'grey-darken-4' : 'white'">{{
-                        item.icon
-                    }}</v-icon>
-                </span>
-                <span class="label">{{ item.label }}</span>
-            </button>
+    <aside class="sidebar-root flex">
+        <nav class="sidebar-menu flex flex-col w-auto">
+            <div class="flex gap-1 h-100">
+                <button
+                    v-for="(item, i) in menu"
+                    :key="item.label"
+                    :class="[
+                        'menu-item py-2 px-3 d-flex align-center ga-2',
+                        {
+                            'active bg-white font-weight-black text-grey-darken-4':
+                                active === item.key,
+                        },
+                    ]"
+                    @click="active = item.key"
+                >
+                    <span class="icon">
+                        <v-icon size="24" :color="active === item.key ? 'grey-darken-4' : 'white'">
+                            {{ item.icon }}
+                        </v-icon>
+                    </span>
+                    <span class="label">{{ item.label }}</span>
+                </button>
+            </div>
+            <div v-if="selectedSubMenu.length" class="sub-menu flex-1 bg-grey-lighten-3">
+                <div
+                    v-for="sub in selectedSubMenu"
+                    :key="sub.key"
+                    class="sub-menu d-flex align-center pa-2 mb-2 cursor-pointer"
+                    :class="{ 'bg-white font-weight-black text-grey-darken-4': active === sub.key }"
+                    @click="active = sub.key"
+                >
+                    <span class="icon">
+                        <v-icon size="20" :color="active === sub.key ? 'grey-darken-4' : 'white'">
+                            {{ sub.icon }}
+                        </v-icon>
+                    </span>
+                    <span class="label ml-2">{{ sub.label }}</span>
+                </div>
+            </div>
         </nav>
-        <div class="sidebar-bottom">
-            <button class="collapse-btn"><span class="arrow">&lt;</span> Thu gọn</button>
-        </div>
     </aside>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const menu = [
-    { label: 'Overview', icon: 'mdi-file' },
-    { label: 'Profile', icon: 'mdi-account' },
-    { label: 'Check-in', icon: 'mdi-timer' },
-    { label: 'Form Request', icon: 'mdi-file-document-outline' },
-    { label: 'Payroll Records', icon: 'mdi-currency-usd' },
-    { label: 'Benefits', icon: 'mdi-hand-heart' },
-    { label: 'Shared Knowledge', icon: 'mdi-book-open-page-variant' },
+    {
+        label: 'HOME',
+        icon: 'mdi-file',
+        key: 'home',
+    },
+    {
+        label: 'WORKING',
+        icon: 'mdi-account',
+        children: [
+            { label: 'Dashboard', icon: 'mdi-view-dashboard-outline', key: 'dashboard' },
+            { label: 'Home Page', icon: 'mdi-home-outline', key: 'homePage' },
+            { label: 'General Dashboard', icon: 'mdi-view-dashboard', key: 'generalDashboard' },
+            { label: 'Reports', icon: 'mdi-file-chart', key: 'reports' },
+        ],
+    },
+    { label: 'REQUEST', icon: 'mdi-timer' },
+    { label: 'PROFILE', icon: 'mdi-file-document-outline' },
+    { label: 'HISTORY', icon: 'mdi-currency-usd' },
+    { label: 'NOTIFICATIONS', icon: 'mdi-hand-heart' },
 ]
-const active = ref(0)
+const active = ref('home')
+const selectedSubMenu = computed(() => {
+    const currentMenu = menu.find((item) => item.key === active.value)
+    return currentMenu?.children || []
+})
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
 .sidebar-root {
-    width: 220px;
     display: flex;
-    flex-direction: column;
     position: relative;
     color: #fff;
-    padding: 12px;
     height: 100%;
 }
 .sidebar-menu {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    min-width: max-content;
+    .sub-menu {
+        padding: 8px 12px;
+        font-size: 13px;
+        background: #9ca3af;
+        width: 100%;
+        flex: 1;
+    }
 }
 .menu-item {
     width: 100%;
