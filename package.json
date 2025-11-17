@@ -1,24 +1,16 @@
 {
-  "name": "smart",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "engines": {
-    "node": "^20.19.0 || >=22.12.0"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --fix --cache",
-    "format": "prettier --write src/"
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/fushiyin/smart/issues"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@tailwindcss/postcss": "^4.1.17",
     "pinia": "^3.0.3",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
   },
+  "description": "This template should help get you started developing with Vue 3 in Vite.",
   "devDependencies": {
     "@eslint/js": "^9.37.0",
     "@vitejs/plugin-vue": "^6.0.1",
@@ -37,5 +29,27 @@
     "vite-plugin-vue-devtools": "^8.0.3",
     "vite-plugin-vuetify": "^2.1.2",
     "vuetify": "^3.10.11"
-  }
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "homepage": "https://github.com/fushiyin/smart#readme",
+  "keywords": [],
+  "license": "ISC",
+  "main": "eslint.config.js",
+  "name": "smart",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fushiyin/smart.git"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "format": "prettier --write src/",
+    "lint": "eslint . --fix --cache",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "version": "0.0.0"
 }
