@@ -34,5 +34,6 @@ import { useAuthStore } from '@/stores/useAuthStore'
 
 const user = useAuthStore().user
 </script>
+
 <style scoped>
 </style>

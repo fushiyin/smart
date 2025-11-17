@@ -1,152 +1,141 @@
 <template>
-    <aside class="sidebar-root flex">
-        <nav class="sidebar-menu flex flex-col w-auto">
-            <div class="flex gap-1 h-100">
-                <button
-                    v-for="(item, i) in menu"
-                    :key="item.label"
-                    :class="[
-                        'menu-item py-2 px-3 d-flex align-center ga-2',
-                        {
-                            'active bg-white font-weight-black text-grey-darken-4':
-                                active === item.key,
-                        },
-                    ]"
-                    @click="active = item.key"
-                >
-                    <span class="icon">
-                        <v-icon size="24" :color="active === item.key ? 'grey-darken-4' : 'white'">
-                            {{ item.icon }}
-                        </v-icon>
-                    </span>
-                    <span class="label">{{ item.label }}</span>
-                </button>
-            </div>
-            <div v-if="selectedSubMenu.length" class="sub-menu flex-1 bg-grey-lighten-3">
-                <div
-                    v-for="sub in selectedSubMenu"
-                    :key="sub.key"
-                    class="sub-menu d-flex align-center pa-2 mb-2 cursor-pointer"
-                    :class="{ 'bg-white font-weight-black text-grey-darken-4': active === sub.key }"
-                    @click="active = sub.key"
-                >
-                    <span class="icon">
-                        <v-icon size="20" :color="active === sub.key ? 'grey-darken-4' : 'white'">
-                            {{ sub.icon }}
-                        </v-icon>
-                    </span>
-                    <span class="label ml-2">{{ sub.label }}</span>
+    <aside class="sidebar-hrms">
+        <nav class="sidebar-menu">
+            <SidebarMenuItem
+                v-for="item in menu"
+                :key="item.key"
+                :item="item"
+                :active="active"
+                @select="handleSelect"
+            />
+        </nav>
+        <div class="sidebar-status">
+            <div class="status-card">
+                <v-icon size="24" color="black" class="mr-2">mdi-refresh</v-icon>
+                <div>
+                    <div class="status-title">System Status</div>
+                    <div class="status-desc">All systems operational</div>
                 </div>
             </div>
-        </nav>
+        </div>
     </aside>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
+import SidebarMenuItem from './SidebarMenuItem.vue'
+
+const active = ref('monthly-attendance')
 const menu = [
     {
-        label: 'HOME',
-        icon: 'mdi-file',
-        key: 'home',
+        label: 'Dashboard',
+        icon: 'mdi-view-dashboard-outline',
+        key: 'dashboard',
     },
     {
-        label: 'WORKING',
-        icon: 'mdi-account',
+        label: 'Attendance List',
+        icon: 'mdi-calendar-check-outline',
+        key: 'attendance-list',
         children: [
-            { label: 'Dashboard', icon: 'mdi-view-dashboard-outline', key: 'dashboard' },
-            { label: 'Home Page', icon: 'mdi-home-outline', key: 'homePage' },
-            { label: 'General Dashboard', icon: 'mdi-view-dashboard', key: 'generalDashboard' },
-            { label: 'Reports', icon: 'mdi-file-chart', key: 'reports' },
+            { label: 'Daily Attendance', icon: 'mdi-calendar-today', key: 'daily-attendance' },
+            { label: 'Monthly Attendance', icon: 'mdi-calendar-month', key: 'monthly-attendance' },
+            {
+                label: 'Att. Regularization',
+                icon: 'mdi-account-check-outline',
+                key: 'att-regularization',
+            },
         ],
     },
-    { label: 'REQUEST', icon: 'mdi-timer' },
-    { label: 'PROFILE', icon: 'mdi-file-document-outline' },
-    { label: 'HISTORY', icon: 'mdi-currency-usd' },
-    { label: 'NOTIFICATIONS', icon: 'mdi-hand-heart' },
+    {
+        label: 'Attendance Setup',
+        icon: 'mdi-cog-outline',
+        key: 'attendance-setup',
+    },
+    {
+        label: 'Leave',
+        icon: 'mdi-file-document-outline',
+        key: 'leave',
+        children: [{ label: 'Leave Setup', icon: 'mdi-cog-outline', key: 'leave-setup' }],
+    },
+    {
+        label: 'Week Off',
+        icon: 'mdi-calendar-remove-outline',
+        key: 'week-off',
+    },
+    {
+        label: 'OD Application',
+        icon: 'mdi-clock-outline',
+        key: 'od-application',
+    },
+    {
+        label: 'Reimbursement',
+        icon: 'mdi-cash-refund',
+        key: 'reimbursement',
+        children: [
+            { label: 'Reimbursement Setup', icon: 'mdi-cog-outline', key: 'reimbursement-setup' },
+        ],
+    },
+    {
+        label: 'Payroll',
+        icon: 'mdi-currency-usd',
+        key: 'payroll',
+        children: [{ label: 'Payroll Setup', icon: 'mdi-cog-outline', key: 'payroll-setup' }],
+    },
 ]
-const active = ref('home')
-const selectedSubMenu = computed(() => {
-    const currentMenu = menu.find((item) => item.key === active.value)
-    return currentMenu?.children || []
-})
+
+function handleSelect(key) {
+    active.value = key
+}
 </script>
 
-<style lang='scss' scoped>
-.sidebar-root {
-    display: flex;
-    position: relative;
-    color: #fff;
+<style scoped>
+.sidebar-hrms {
+    width: 260px;
     height: 100%;
+    background: linear-gradient(180deg, #4f46e5 0%, #6366f1 60%, #7c3aed 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 16px;
+}
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 24px 20px 16px 20px;
+    gap: 12px;
+}
+.sidebar-title .main-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.sidebar-title .sub-title {
+    font-size: 12px;
+    opacity: 0.8;
 }
 .sidebar-menu {
     flex: 1;
-    display: flex;
-    min-width: max-content;
-    .sub-menu {
-        padding: 8px 12px;
-        font-size: 13px;
-        background: #9ca3af;
-        width: 100%;
-        flex: 1;
-    }
+    padding: 8px 0 0 0;
 }
-.menu-item {
-    width: 100%;
-    font-size: 15px;
-    cursor: pointer;
-    border-radius: 8px;
-    margin-bottom: 2px;
-    transition: background 0.2s, color 0.2s;
-    font-weight: 900;
-    margin-bottom: 2px;
+.sidebar-status {
+    padding: 0 16px;
 }
-.icon {
-    width: 22px;
-    height: 22px;
+.status-card {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
 }
-.label {
-    flex: 1;
-    text-align: left;
+.status-title {
+    font-size: 14px;
+    font-weight: 600;
 }
-.sidebar-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-.collapse-btn {
-    background: rgba(255, 255, 255, 0.08);
-    color: #e5e7eb;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 18px;
-    font-size: 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: 100%;
-}
-.arrow {
-    font-size: 18px;
-}
-.sidebar-bg {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 160px;
-    z-index: 1;
-}
-.sidebar-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.9;
+.status-desc {
+    font-size: 12px;
+    opacity: 0.8;
 }
 </style>
