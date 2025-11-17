@@ -11,11 +11,13 @@
         </nav>
         <div class="sidebar-status">
             <div class="status-card">
-                <v-icon size="24" color="black" class="mr-2">mdi-refresh</v-icon>
                 <div>
-                    <div class="status-title">System Status</div>
+                    <div class="status-title">Back Office</div>
                     <div class="status-desc">All systems operational</div>
                 </div>
+                <button class="p-2">
+                    <v-icon size="18" color="white">mdi-arrow-right</v-icon>
+                </button>
             </div>
         </div>
     </aside>
@@ -128,6 +130,7 @@ function handleSelect(key) {
     padding: 12px 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
 }
 .status-title {
