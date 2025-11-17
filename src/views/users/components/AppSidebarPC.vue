@@ -15,7 +15,7 @@
                     <div class="status-title">Back Office</div>
                     <div class="status-desc">All systems operational</div>
                 </div>
-                <button class="p-2">
+                <button class="p-2 rounded-full bg-black">
                     <v-icon size="18" color="white">mdi-arrow-right</v-icon>
                 </button>
             </div>
