@@ -10,22 +10,32 @@
             <button class="icon-btn">
                 <v-icon size="22" color="#888">mdi-help-circle-outline</v-icon>
             </button>
-            <button class="icon-btn notify">
-                <v-icon size="22" color="#e84c7a">mdi-bell-badge-outline</v-icon>
-                <span class="badge">10</span>
-            </button>
+            <v-btn icon ref="bellRef" @click="onBellClick">
+                <v-icon>mdi-bell-badge-outline</v-icon>
+            </v-btn>
             <div class="avatar ml-5">{{ user?.name.charAt(0) }}</div>
         </div>
     </header>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
 defineProps({
     user: {
         type: Object,
         required: true,
     },
 })
+
+const bellRef = ref(null)
+
+const emit = defineEmits(['show-notifications'])
+
+function onBellClick() {
+    // Pass the actual DOM element
+    emit('show-notifications', bellRef.value?.$el || bellRef.value)
+}
 </script>
 
 <style scoped>

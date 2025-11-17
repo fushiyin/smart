@@ -1,6 +1,6 @@
 <template>
     <aside class="sidebar-hrms">
-        <nav class="sidebar-menu">
+        <nav class="sidebar-menu pt-2">
             <SidebarMenuItem
                 v-for="item in menu"
                 :key="item.key"
@@ -15,8 +15,8 @@
                     <div class="status-title">Back Office</div>
                     <div class="status-desc">All systems operational</div>
                 </div>
-                <button class="p-2 rounded-full bg-black">
-                    <v-icon size="18" color="white">mdi-arrow-right</v-icon>
+                <button class="w-6 h-6 rounded-full bg-white" @click="navigateToAdmin">
+                    <v-icon size="18" color="black">mdi-arrow-right</v-icon>
                 </button>
             </div>
         </div>
@@ -27,7 +27,9 @@
 import { ref } from 'vue'
 
 import SidebarMenuItem from './SidebarMenuItem.vue'
+import { useRouter } from 'vuetify/lib/composables/router'
 
+const router = useRouter()
 const active = ref('monthly-attendance')
 const menu = [
     {
@@ -89,12 +91,16 @@ const menu = [
 function handleSelect(key) {
     active.value = key
 }
+const navigateToAdmin = () => {
+    router.push('/attendance')
+}
 </script>
 
 <style scoped>
 .sidebar-hrms {
     width: 260px;
     height: 100%;
+    max-height: 100vh;
     background: linear-gradient(180deg, #4f46e5 0%, #6366f1 60%, #7c3aed 100%);
     color: #fff;
     display: flex;
