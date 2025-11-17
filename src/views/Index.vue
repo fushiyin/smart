@@ -12,9 +12,6 @@ onMounted(() => {
     if (!user) {
         return router.push('/login')
     }
-
-    if (user.role === 'User') {
-        return router.push('/home')
-    } else return router.push('/dashboard')
+    return router.push('/home')
 })
 </script>
