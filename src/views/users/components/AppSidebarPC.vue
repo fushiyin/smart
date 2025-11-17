@@ -30,17 +30,17 @@ import SidebarMenuItem from './SidebarMenuItem.vue'
 import { useRouter } from 'vuetify/lib/composables/router'
 
 const router = useRouter()
-const active = ref('monthly-attendance')
+const active = ref('home')
 const menu = [
     {
-        label: 'Dashboard',
+        label: 'Home',
         icon: 'mdi-view-dashboard-outline',
-        key: 'dashboard',
+        key: 'home',
     },
     {
-        label: 'Attendance List',
+        label: 'Working',
         icon: 'mdi-calendar-check-outline',
-        key: 'attendance-list',
+        key: 'working',
         children: [
             { label: 'Daily Attendance', icon: 'mdi-calendar-today', key: 'daily-attendance' },
             { label: 'Monthly Attendance', icon: 'mdi-calendar-month', key: 'monthly-attendance' },
@@ -90,6 +90,7 @@ const menu = [
 
 function handleSelect(key) {
     active.value = key
+    router.push(`/${key}`)
 }
 const navigateToAdmin = () => {
     router.push('/attendance')
